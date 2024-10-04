@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <style media="screen">
+        table.redTable {
+            border: 2px solid #607d8b;
+            background-color: #EEE7DB;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table.redTable td, table.redTable th {
+            border: 1px solid #AAAAAA;
+            padding: 3px 2px;
+        }
+        table.redTable tbody td {
+            font-size: 13px;
+        }
+        table.redTable tr:nth-child(even) {
+            background: #ffffff;
+        }
+        table.redTable thead {
+            background: #607d8b;
+        }
+        table.redTable thead th {
+            font-size: 19px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-align: center;
+            border-left: 2px solid #607d8b;
+        }
+        table.redTable thead th:first-child {
+            border-left: none;
+        }
+        table.redTable tfoot {
+            font-size: 13px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background: #607d8b;
+        }
+        table.redTable tfoot td {
+            font-size: 13px;
+        }
+        table.redTable tfoot .links {
+            text-align: right;
+        }
+        table.redTable tfoot .links a {
+            display: inline-block;
+            background: #FFFFFF;
+            color: #607d8b;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+        table.redTable img {
+            max-width: 100px; /* Adjust the size as needed */
+            height: auto;
+        }
+        .btn-update {
+            background-color: #607d8b;
+            color: #FFFFFF;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-update:hover {
+            background-color: #505f5f;
+        }
+        .status-button {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: default;
+            text-align: center;
+            font-size: 14px;
+        }
+        .status-active {
+            background-color: #28a745; /* Green */
+        }
+        .status-inactive {
+            background-color: #dc3545; /* Red */
+        }
+        .status-sold {
+            background-color: #ffc107; /* Yellow */
+        }
+        .status-issued {
+            background-color: #6c757d; /* Grey */
+        }
+        .not-available {
+            color: #ffffff; /* White text color */
+            background-color: #ff0000; /* Red background */
+            border: 1px solid #cc0000; /* Darker red border */
+            padding: 10px 20px; /* Add space inside the border */
+            font-weight: bold; /* Make the text bold */
+            text-align: center; /* Center the text */
+            font-size: 16px; /* Adjust font size */
+            border-radius: 5px; /* Rounded corners for the border */
+            display: inline-block; /* Make the p behave like an inline block */
+            cursor: default; /* No pointer cursor needed */
+            text-transform: uppercase; /* Make text uppercase */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Add a slight shadow */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+    </style>
+</head>
+<body>
+    {% include "base3.html" %}
+    <br><br>
+    <h3 class="p-3 mb-2 bg-success text-white" style="font-size: 30px;text-align:center;">Available Books in Library</h3>
+    {% if books_info %}
+    <div class="container">
+        <table class="redTable">
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>ISBN</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Cover Image</th>
+                    <th>Status</th>
+                    <th>Add to Cart</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <div class="links"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for info in books_info %}
+                <tr>
+                    <td>{{ info.book.name }}</td>
+                    <td>{{ info.book.isbn }}</td>
+                    <td>{{ info.book.author }}</td>
+                    <td>$ {{ info.book.price }}</td>
+                    <td>{{ info.book.category }}</td>
+                    <td>
+                        {% if info.book.cover %}
+                            <img src="{{ info.book.cover.url }}" alt="Cover Image">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info.book.is_sold %}
+                            <span class="status-button status-sold">Sold</span>
+                        {% elif info.is_issued %}
+                            <span class="status-button status-issued">Issued</span>
+                        {% elif info.book.is_active %}
+                            <span class="status-button status-active">Active</span>
+                        {% else %}
+                            <span class="status-button status-inactive">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info.book.is_sold or info.is_issued or not info.book.is_active %}
+                            <span class="not-available">NOT AVAILABLE TO CART</span>
+                        {% else %}
+                            <a href="{% url 'add_to_cart' info.book.id %}" class="btn-update">Add to Cart</a>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <h1>No books available</h1>
+    {% endif %}
+    <br><br><br><br><br><br><br><br><br>
+    {% include "footer.html" %}
+</body>
+</html>

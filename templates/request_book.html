@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic Reset */
+     
+
+        /* Container Styling */
+        .container {
+            height: 300px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Header Styling */
+        h1 {
+            margin-top: 160px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        /* Form Styling */
+        form {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #007bff; /* Blue background */
+            color: white;              /* White text */
+            border: none;              /* Remove border */
+            padding: 10px 20px;        /* Add padding */
+            font-size: 1em;            /* Font size */
+            cursor: pointer;           /* Pointer cursor */
+            border-radius: 5px;        /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        button:active {
+            background-color: #004494; /* Even darker blue when clicked */
+        }
+
+        button:focus {
+            outline: none; /* Remove default focus outline */
+        }
+    </style>
+</head>
+<body>
+    {% include 'base3.html' %}
+
+   
+    <div class="container">
+        <h1>Request a Book</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Request Book</button>
+        </form>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

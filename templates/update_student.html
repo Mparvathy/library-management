@@ -1,0 +1,31 @@
+{% include 'base2.html' %}
+<br>
+<br>
+<br>
+<h2 style="text-align: center; text-decoration: underline;">Update Student</h2>
+<form method="POST" style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; max-width: 400px; margin: auto;">
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 15px;">
+        <label for="first_name">Name:</label>
+        <input type="text" name="first_name" id="first_name" value="{{ student.first_name }}" required style="border: 1px solid #ccc; padding: 5px; width: calc(100% - 12px);">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="enrollment">Enrollment:</label>
+        <input type="text" name="enrollment" id="enrollment" value="{{ student.enrollment }}" required style="border: 1px solid #ccc; padding: 5px; width: calc(100% - 12px);">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="branch">Branch:</label>
+        <input type="text" name="branch" id="branch" value="{{ student.branch|default:'' }}" style="border: 1px solid #ccc; padding: 5px; width: calc(100% - 12px);">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" id="phone" value="{{ student.phone|default:'' }}" style="border: 1px solid #ccc; padding: 5px; width: calc(100% - 12px);">
+    </div>
+    
+    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Update Student</button>
+</form>
+<a href="{% url 'list_students' %}" style="display: block; margin-top: 20px; text-align: center;">Cancel</a>

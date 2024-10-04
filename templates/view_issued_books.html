@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Issued Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table-container {
+            height: auto;
+            margin-top: 30px;
+            overflow-x: auto;
+            border-radius: 15px;
+            background: #ffffff;
+            padding: 20px;
+
+        }
+        .table-container h2 {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #4a4a4a;
+        }
+        table {
+            margin-top: 30px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        thead th {
+            background: linear-gradient(135deg, #4a4a4a, #8b0000); /* Dark Slate Blue to Light Coral gradient */
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 2px solid #8b0000;
+        }
+        tbody td {
+            text-align: center;
+            padding: 12px;
+            vertical-align: middle;
+            border-bottom: 1px solid #dddddd;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #e2e6ea;
+            cursor: pointer;
+        }
+        .empty-message {
+            padding: 20px;
+            font-style: italic;
+            color: #6c757d;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include "base2.html" %}
+
+    <div class="container">
+        <div class="table-container">
+            <h2>Issued Books</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Enrollment ID</th>
+                        <th>Student Name</th>
+                        <th>Branch Name</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issued_books %}
+                    <tr>
+                        <td>{{ issue.book.name }}</td>
+                        <td>{{ issue.student.enrollment }}</td>
+                        <td>{{ issue.student.first_name }}</td>
+                        <td>{{ issue.student.branch }}</td>
+                        <td>{{ issue.issue_date }}</td>
+                        <td>{{ issue.due_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center empty-message">No issued books found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

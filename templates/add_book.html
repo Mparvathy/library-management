@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-control {
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da; /* Light gray border */
+        }
+        .form-control:focus {
+            border-color: #80bdff; /* Light blue border on focus */
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Light blue shadow */
+        }
+        .form-group label {
+            color: #495057; /* Dark gray color for labels */
+        }
+        .form-group .text-danger {
+            color: #dc3545; /* Red color for error messages */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Blue background for buttons */
+            border-color: #007bff; /* Blue border for buttons */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #004085; /* Even darker blue border on hover */
+        }
+        .form-container {
+            border: 1px solid #dee2e6; /* Light gray border for the form container */
+            padding: 20px;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa; /* Light gray background for the form */
+        }
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center">Add Book to Library</h2>
+            <form method="post" enctype="multipart/form-data"> <!-- Add enctype for file uploads -->
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Book Name</label>
+                    <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" 
+                           value="{{ form.name.value|default_if_none:'' }}" 
+                           class="form-control" required>
+                    {% if form.name.errors %}
+                        <div class="text-danger">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.isbn.id_for_label }}">ISBN</label>
+                    <input type="number" id="{{ form.isbn.id_for_label }}" name="{{ form.isbn.html_name }}" 
+                           value="{{ form.isbn.value|default_if_none:'' }}" 
+                           class="form-control" required>
+                    {% if form.isbn.errors %}
+                        <div class="text-danger">{{ form.isbn.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.author.id_for_label }}">Author</label>
+                    <input type="text" id="{{ form.author.id_for_label }}" name="{{ form.author.html_name }}" 
+                           value="{{ form.author.value|default_if_none:'' }}" 
+                           class="form-control" required>
+                    {% if form.author.errors %}
+                        <div class="text-danger">{{ form.author.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.price.id_for_label }}">Price</label>
+                    <input type="text" id="{{ form.price.id_for_label }}" name="{{ form.price.html_name }}" 
+                           value="{{ form.price.value|default_if_none:'' }}" 
+                           class="form-control" required>
+                    {% if form.price.errors %}
+                        <div class="text-danger">{{ form.price.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">Category</label>
+                    <select id="{{ form.category.id_for_label }}" name="{{ form.category.html_name }}" 
+                            class="form-control" required>
+                        {% for choice in form.category.field.choices %}
+                            <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
+                                {{ choice.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% if form.category.errors %}
+                        <div class="text-danger">{{ form.category.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.cover.id_for_label }}">Cover </label>
+                    <input type="file" id="{{ form.cover.id_for_label }}" name="{{ form.cover.html_name }}" 
+                           class="form-control">
+                    {% if form.cover.errors %}
+                        <div class="text-danger">{{ form.cover.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

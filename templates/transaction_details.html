@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative; /* Allows absolute positioning within the container */
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details div {
+            margin-bottom: 10px;
+        }
+        .details label {
+            font-weight: bold;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tfoot {
+            font-weight: bold;
+        }
+        .btn-primary {
+            position: absolute; /* Position the button absolutely within the container */
+            top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       
+        <a href="{% url 'download_transaction_details' order.id %}" class="btn-primary">Download PDF</a>
+        <h2 style="text-align: center;">Transaction Details</h2>
+        <div class="details">
+            <div>
+                <label>Order ID:</label>
+                <p>{{ order.id }}</p>
+            </div>
+            <div>
+                <label>Order Date:</label>
+                <p>{{ order.created_at }}</p>
+            </div>
+            <div>
+                <label>Delivery Address:</label>
+                <p>{{ order.address }}</p>
+            </div>
+            <div>
+                <label>Total Price:</label>
+                <p>${{ order.total_price }}</p>
+            </div>
+            <div>
+                <label>Payment Method:</label>
+                <p>Account Number: {{ order.account_number }}</p>
+            </div>
+                   </div>
+        <h3>Order Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book_issue in order.bookissue_set.all %}
+                <tr>
+                    <td>{{ book_issue.book.name }}</td>
+                    <td>{{ book_issue.quantity }}</td>
+                    <td>${{ book_issue.book.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total Price:</td>
+                    <td>${{ order.total_price }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <a href="{% url 'studentdashboard' %}"  style="float: left; margin-left: -100px;">DASHBOARD</a>
+    </div>
+</body>
+</html>

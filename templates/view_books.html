@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <style media="screen">
+        table.redTable {
+            background-color: #EEE7DB;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table.redTable td, table.redTable th {
+            border: 1px solid #AAAAAA;
+            padding: 3px 2px;
+        }
+        table.redTable tbody td {
+            font-size: 13px;
+        }
+        table.redTable tr:nth-child(even) {
+            background: #ffffff;
+        }
+        table.redTable thead {
+            background: #607d8b;
+        }
+        table.redTable thead th {
+            font-size: 19px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        table.redTable thead th:first-child {
+            border-left: none;
+        }
+        table.redTable tfoot {
+            font-size: 13px;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+        table.redTable tfoot td {
+            font-size: 13px;
+        }
+        table.redTable tfoot .links {
+            text-align: right;
+        }
+        table.redTable tfoot .links a {
+            display: inline-block;
+            background: #FFFFFF;
+            color: #607d8b;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+        table.redTable img {
+            max-width: 100px; /* Adjust the size as needed */
+            height: auto;
+        }
+        .btn-update {
+            background-color: #607d8b;
+            color: #FFFFFF;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-update:hover {
+            background-color: #505f5f;
+        }
+        .status-button {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: default;
+            text-align: center;
+            font-size: 14px;
+        }
+        .status-active {
+            background-color: #28a745; /* Green */
+        }
+        .status-inactive {
+            background-color: #dc3545; /* Red */
+        }
+        .status-sold {
+            background-color: #ffc107; /* Yellow */
+        }
+        .status-issued {
+            background-color: #17a2b8; /* Teal */
+        }
+    </style>
+</head>
+<body>
+    {% include "base2.html" %}
+    <br><br>
+    <h3 class="p-3 mb-2 bg-success text-white" style="font-size: 30px;text-align:center;">Available Books in Library</h3>
+    {% if books_info %}
+    <div class="container">
+        <table class="redTable">
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>ISBN</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Cover Image</th>
+                    <th>Status</th> <!-- Add status column -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in books_info %}
+                <tr>
+                    <td>{{ info.book.name }}</td>
+                    <td>{{ info.book.isbn }}</td>
+                    <td>{{ info.book.author }}</td>
+                    <td>{{ info.book.category }}</td>
+                    <td>${{ info.book.price }}</td>
+                    <td>
+                        {% if info.book.cover %}
+                            <img src="{{ info.book.cover.url }}" alt="Cover Image" style="height: 100px; width: 100px;">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info.is_issued %}
+                            <span class="status-button status-issued">Issued</span>
+                        {% elif info.book.is_sold %}
+                            <span class="status-button status-sold">Sold</span>
+                        {% elif info.book.is_active %}
+                            <span class="status-button status-active">Active</span>
+                        {% else %}
+                            <span class="status-button status-inactive">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Show buttons based on the status of the book -->
+                        {% if not info.book.is_sold %}
+                            <a href="{% url 'update_book' info.book.id %}" class="btn-update">Update</a>
+                            <a href="{% url 'toggle_book_status' info.book.id %}" class="btn-update">
+                                {% if info.book.is_active %}
+                                    Mark as Inactive
+                                {% else %}
+                                    Mark as Active
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                        <form action="{% url 'delete_book' info.book.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <h1>No books available</h1>
+    {% endif %}
+    <br><br><br><br><br><br><br><br><br>
+    {% include "footer.html" %}
+</body>
+</html>

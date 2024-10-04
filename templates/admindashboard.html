@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    a:link {
+      text-decoration: none;
+    }
+
+    .order-card {
+      color: #fff;
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+    .bg-c-yellow {
+      background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
+
+    .bg-c-info {
+      background: linear-gradient(45deg, #17a2b8, #20c997);
+    }
+
+    .card {
+      border-radius: 5px;
+      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      border: none;
+      margin-bottom: 30px;
+      transition: all 0.3s ease-in-out;
+      margin-top: 150px;
+    }
+
+    .card .card-block {
+      padding: 25px;
+    }
+
+    .order-card i {
+      font-size: 60px; /* Increased icon size */
+      margin-bottom: 10px; /* Space between icon and text */
+    }
+
+    .card-title {
+      margin-bottom: 10px; /* Space between title and count */
+    }
+
+    .card-text {
+      font-size: 2rem; /* Adjust text size */
+      margin: 0;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+{% include 'base2.html' %}
+  <div class="container" style="height:550px">
+    <div class="row">
+      <!-- Total Students Card -->
+      <div class="col-md-4">
+        <div class="card bg-c-blue order-card">
+          <div class="card-block">
+            <h6 class="card-title">Total Students</h6>
+            <h2 class="text-right"><i class="fa fa-user"></i><span class="card-text">{{ studentcount }}</span></h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Books Card -->
+      <div class="col-md-4">
+        <div class="card bg-c-green order-card">
+          <div class="card-block">
+            <h6 class="card-title">Total Books</h6>
+            <h2 class="text-right"><i class="fa fa-book"></i><span class="card-text">{{ totalbooks }}</span></h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issued Books Card -->
+      <div class="col-md-4">
+        <div class="card bg-c-yellow order-card">
+          <div class="card-block">
+            <h6 class="card-title">Issued Books</h6>
+            <h2 class="text-right"><i class="fa fa-arrow-right"></i><span class="card-text">{{ issuedbooks }}</span></h2>
+          </div>
+        </div>
+      </div>
+ <!-- Issued Books Card -->
+ <div class="col-md-4" style="margin-top: -150px">
+  <div class="card bg-c-yellow order-card">
+    <div class="card-block">
+      <h6 class="card-title">Pending request</h6>
+      <h2 class="text-right"><i class="fa fa-arrow-right"></i><span class="card-text">{{ pendingrequests }}</span></h2>
+    </div>
+  </div>
+</div>
+      <!-- Returned Books Card -->
+      <div class="col-md-4" style="margin-top: -150px;">
+        <div class="card bg-c-info order-card">
+          <div class="card-block">
+            <h6 class="card-title">Returned Books</h6>
+            <h2 class="text-right"><i class="fa fa-arrow-left"></i><span class="card-text">{{ returnedbooks }}</span></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

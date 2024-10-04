@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sold Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+     
+        table {
+            width: 80%;
+            margin-top: 60px ;
+            margin-left: 150px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        td[colspan="4"] {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+    <h1 style="  
+    color:black;
+    text-decoration: underline;
+    margin-top: 60px;
+    padding: 20px;
+    text-align: center;
+">Sold Books</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>BOOK IMAGE</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Purchased By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in sold_books %}
+            <tr>
+                <td>
+                    <img src="{{ book.cover.url }}" alt="{{ item.book.title }}"  style="height: 120px;"/>
+                </td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.author }}</td>
+                <td>$ {{ book.price }}</td>
+                <td>{{ book.sold_to.first_name }}</td> <!-- Display the username of the user who bought the book -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No books have been sold.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

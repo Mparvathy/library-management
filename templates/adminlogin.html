@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            
+            background-size: cover;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .login-container {
+            max-width: 360px;
+            margin: 80px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+        .form-group input {
+            height: 45px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .form-group .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            background: #007bff;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .form-group .btn:hover {
+            background: #0056b3;
+        }
+        .text-center {
+            margin-top: 20px;
+        }
+        .text-center a {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        .text-center a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+{% include 'base.html' %}
+<div class="login-container">
+    <div class="login-header">
+        <h1>Admin Login</h1>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="u" placeholder="Username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="p" placeholder="Password" required>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        
+        <div class="text-center">
+            <p>Don't have an account? <a href="">Sign Up here</a></p>
+        </div>
+    </form>
+</div>
+{%  include 'footer.html' %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

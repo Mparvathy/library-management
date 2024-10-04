@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LMS Django</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        .bs-example {
+            margin: 0px;
+        }
+        .navbar-brand {
+            font-size: 20px;
+            font-family: sans-serif;
+        }
+        .navbar-text {
+            position: absolute; /* Absolute positioning for centering */
+            left: 50%;
+            color: white;
+            transform: translateX(-50%); /* Adjusting for exact center */
+        }
+    </style>
+</head>
+<body>
+
+<div class="bs-example">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+        <a href="/" class="navbar-brand">LIBRARY MANAGEMENT</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse">
+            <div style="color: white;position: absolute; left: 50%;transform: translateX(-50%); font-family: Fredoka, sans-serif;  font-optical-sizing: auto  ; font-style: normal;">
+                {% if user.is_authenticated %}
+                    Welcome, {{ user.first_name }}!
+                {% endif %}
+            </div>
+
+            <div class="navbar-nav ml-auto"> <!-- Right-aligned navigation -->
+                <a href="{% url 'admindashboard' %}" class="nav-item nav-link active">Home</a>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Book</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'add_book' %}" class="dropdown-item">Add Book</a>
+                        <a href="{% url 'view_books' %}" class="dropdown-item">View Book</a>
+                        <a href="{% url 'issue_book' %}" class="dropdown-item">Issue New Book</a>
+                        <a href="{% url 'view_issued_books' %}" class="dropdown-item">View Issued Book</a>
+                        <a href="{% url 'students_who_returned_books' %}" class="dropdown-item">View Returned Book</a>
+                        <a href="{% url 'view_book_requests' %}" class="dropdown-item">View Request Book</a>
+                        <a href="{% url 'view_sold_books' %}" class="dropdown-item">View Sold book</a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Student</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'list_students' %}" class="dropdown-item">View Student</a>
+                        <a href="{% url 'add_student' %}" class="dropdown-item">Add Student</a>
+                    </div>
+                </div>
+
+                <a href="{% url 'logout' %}" class="nav-item nav-link">LOGOUT</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+{% block content %}
+{% endblock %}
+
+<!-- jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

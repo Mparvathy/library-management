@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Issued Books</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-return, .btn-pay-fine {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-return:hover, .btn-pay-fine:hover {
+            background-color: #218838;
+        }
+        .alert {
+            padding: 10px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-unpaid {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base3.html' %}
+    <div style="height: 300px;">
+        <h1 style="margin-top:100px;text-align: center;">My Issued Books</h1>
+
+        {% if messages %}
+        <div class="alerts">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <br>
+
+        {% if issued_books %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Issued Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Fine</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issued_books %}
+                        <tr>
+                            <td>{{ issue.book.name }}</td>
+                            <td>{{ issue.book.author }}</td>
+                            <td>{{ issue.issue_date }}</td>
+                            <td>{{ issue.due_date }}</td>
+                            <td>
+                                {% if issue.return_date %}
+                                    {{ issue.return_date }}
+                                {% else %}
+                                    Not Returned
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if issue.fine > 0 %}
+                                    ${{ issue.fine }}
+                                    {% if issue.fine_paid %}
+                                        <span class="status-paid">Paid</span>
+                                    {% else %}
+                                        <!-- Check if current date is after due date -->
+                                        {% if issue.due_date < current_date %}
+                                            <!-- Form to pay fine -->
+                                            <form action="{% url 'pay_fine' issue.id %}" method="post" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="issue_id" value="{{ issue.id }}">
+                                                <input type="hidden" name="fine_amount" value="{{ issue.fine }}">
+                                                <button type="submit" class="btn-pay-fine">Pay Fine</button>
+                                            </form>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not issue.is_returned %}
+                                    <form method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="issue_id" value="{{ issue.id }}">
+                                        <input type="hidden" name="action" value="return">
+                                        <button type="submit" class="btn-return">Return Book</button>
+                                    </form>
+                                {% else %}
+                                    Returned
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="text-align: center;"> Admin have not issued any books.</p>
+        {% endif %}
+     
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

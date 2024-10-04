@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .container {
+         height: 300px;
+        }
+        .profile-header {
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .profile-header p {
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'base3.html' %}
+
+    <div class="container">
+        {% if user.is_user %}
+            <div class="profile-header" style="margin-top: 100px;">
+                <h2 style="margin-top: 100px;">User Profile</h2>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        {% if user.first_name %}
+                            <p><strong>Name:</strong> {{ user.first_name }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        {% if user.enrollment %}
+                            <p><strong>Enrollment:</strong> {{ user.enrollment }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        {% if user.branch %}
+                            <p><strong>Branch:</strong> {{ user.branch }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>User Type:</strong> Student</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

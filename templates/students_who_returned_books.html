@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Who Returned Books</title>
+    <style>
+        /* Table styling */
+        .styled-table {
+            width: 90%;
+            margin-left: 80px;
+            text-align: center;
+            border-collapse: collapse;
+         
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding shadow for a subtle 3D effect */
+        }
+
+        .styled-table th, .styled-table td {
+            border: 2px solid #3498db; /* Border color */
+            padding: 12px; /* Increased padding for better readability */
+            text-align: left;
+        }
+
+        .styled-table th {
+            background-color: #3498db; /* Header background color */
+            color: #fff; /* Text color for headers */
+        }
+
+        .styled-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tr:nth-child(odd) {
+            background-color: #fff; /* Ensure odd rows are white for better contrast */
+        }
+
+        .styled-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    
+        /* Status button styling */
+        .status-button {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: default;
+        }
+
+        .status-returned {
+            background-color: #28a745; /* Green for returned */
+        }
+
+        .status-not-returned {
+            background-color: #dc3545; /* Red for not returned */
+        }
+
+        .status-paid {
+            background-color: #007bff; /* Blue for paid fine */
+        }
+
+        .status-unpaid {
+            background-color: #ffc107; /* Yellow for unpaid fine */
+        }
+
+        .status-no-fine {
+            background-color: #6c757d; /* Gray for no fine */
+        }
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+    <div class="content">
+        <h1 style="margin-top: 80px; text-align: center; text-decoration: underline;">Students Who Returned Books</h1>
+        <br>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Email</th>
+                    <th>Book Name</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Fine</th>
+                    <th>Fine Status</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in student_book_info %}
+                    <tr>
+                        <td>{{ info.student.first_name }}</td>
+                        <td>{{ info.student.email }}</td>
+                        <td>{{ info.book.name }}</td>
+                        <td>{{ info.due_date }}</td>
+                        <td>{{ info.return_date }}</td>
+                        <td>
+                            {% if info.fine > 0 %}
+                                ${{ info.fine }}
+                            {% else %}
+                                No Fine
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if info.fine > 0 %}
+                                <span class="status-button {% if info.fine_paid %}status-paid{% else %}status-unpaid{% endif %}">
+                                    {% if info.fine_paid %}Paid{% else %}Unpaid{% endif %}
+                                </span>
+                            {% else %}
+                                <span class="status-button status-no-fine">No Fine</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="status-button {% if info.status == 'Returned' %}status-returned{% else %}status-not-returned{% endif %}">
+                                {{ info.status }}
+                            </span>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8">No records found.</td> <!-- Adjust colspan to account for new columns -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br><br><br><br><br>
+</body>
+</html>

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Book Request</title>
+    <style>
+      
+
+        /* Centering Container */
+        .container {
+            text-align: center;
+          margin-top: 120px;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px; /* Limiting maximum width */
+            margin: 20px auto; /* Center container horizontally */
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+   
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: #007bff; /* Blue background */
+            color: white;              /* White text */
+            border: none;              /* Remove border */
+            padding: 10px 20px;        /* Add padding */
+            font-size: 1em;            /* Font size */
+            cursor: pointer;           /* Pointer cursor */
+            border-radius: 5px;        /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition */
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        button:active {
+            background-color: #004494; /* Even darker blue when clicked */
+        }
+
+        button:focus {
+            outline: none; /* Remove default focus outline */
+        }
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+    <div class="container">
+        <br>
+        <h1 style="color: black;">Approve Book Request</h1>
+        <p style="color: black;"><strong>Student:</strong> {{ book_request.student.username }}</p>
+        <p style="color: black;"><strong>Book:</strong> {{ book_request.book.name }}</p>
+        <p style="color: black;"><strong>Request Date:</strong> {{ book_request.request_date }}</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div>
+                <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+                {{ form.due_date }}
+                {% if form.due_date.errors %}
+                    <div class="error">{{ form.due_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit">Issue Book</button>
+        </form>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Requests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            height: 300px;
+        }
+
+        /* Header Styling */
+       
+   
+         table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 0 auto; 
+        }  
+
+        th, td {
+            border: 1px solid #ddd; /* Light grey border */
+            padding: 8px;
+            margin-left: 20px; /* Add padding inside cells */
+            text-align: center; /* Center text within cells */
+        }
+
+        th {
+            background-color: #f4f4f4; /* Light grey background for headers */
+        }
+ 
+        button {
+            background-color: #007bff; 
+            color: white;             
+            border: none;            
+            padding: 6px 12px;        
+            font-size: 0.9em;         
+            border-radius: 5px;        
+            transition: background-color 0.3s; 
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        button:active {
+            background-color: #004494; /* Even darker blue when clicked */
+        }
+
+        button:focus {
+            outline: none; /* Remove default focus outline */
+        }
+       
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+<div style="height: 100px;">
+        <h1 style="margin-top:90px; text-align: center; text-decoration: underline; ">Book Requests</h1>
+        {% if requests %}
+        <table>
+            <tr style="text-align: center;">
+                <th>Student</th>
+                <th>Book</th>
+                <th>Request Date</th>
+                <th>Action</th>
+            </tr>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.student.username }}</td>
+                <td>{{ request.book.name }}</td>
+                <td>{{ request.request_date }}</td>
+                <td>
+                    <form action="{% url 'approve_request' request.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        {% else %}
+        <p style="color:black;font-size: 20px;text-align: center;font-family: Fredoka, sans-serif;  font-optical-sizing: auto  ; font-style: normal;">  Empty request </p>
+    {% endif %}
+    </body>
+</html>

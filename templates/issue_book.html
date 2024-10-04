@@ -1,0 +1,149 @@
+<!-- issue_book.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Book</title>
+    <style>
+           /* Form Styling */
+           form {
+            border: 2px solid #000; /* Black border */
+            padding: 20px;
+            margin-left:500px;
+            width: 400px;
+            border-radius: 8px;
+            background-color: #f9f9f9; /* Light background for the form */
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Messages Styling */
+        .messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 4px;
+            background-color: #fff; /* White background for messages */
+        }
+        
+        .messages li {
+            margin: 5px 0;
+        }
+
+        .messages .success {
+            color: green;
+        }
+
+        .messages .error {
+            color: red;
+        }
+
+        /* Table Styling */
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Link Styling */
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base2.html' %}
+    <h1 style="margin-top: 90px; text-align: center;">Issue a Book</h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.student.id_for_label }}">Student</label>
+            {{ form.student }}
+            {% if form.student.errors %}
+                <div class="error">{{ form.student.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.book.id_for_label }}">Book</label>
+            {{ form.book }}
+            {% if form.book.errors %}
+                <div class="error">{{ form.book.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+            {{ form.due_date }}
+            {% if form.due_date.errors %}
+                <div class="error">{{ form.due_date.errors }}</div>
+            {% endif %}
+        </div>
+
+        
+
+        <button type="submit" style="text-align: center;margin-left: 100px;">Issue Book</button>
+    </form>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+<br>
+    {% include 'footer.html' %}
+</body>
+</html>
